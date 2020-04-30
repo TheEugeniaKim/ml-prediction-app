@@ -1,7 +1,10 @@
+
+
 <svelte:head>
 	<title>About</title>
 </svelte:head>
 
+<br/>
 <h2>About</h2>
 
 <p>

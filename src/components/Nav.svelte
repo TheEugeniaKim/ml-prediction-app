@@ -1,23 +1,25 @@
 <script>
   export let view;
-
-
 </script>
 
 <style>
   .navbar {
-    position: relative;
+    height: 5vh;
+    width: 100vw; 
+    top: 0; 
+    overflow: hidden;
+    position: absolute;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 2rem;
+    padding-left: 0;
     z-index: 1;
-    width: 100%;
     border-bottom: solid 1px var(--primary-color);
     opacity: 0.9;
     margin-bottom: 1rem;
     background-color: #0070BF;
-    filter: drop-shadow(15px 3px 4px #434343)
+    box-shadow: 0px 8px 5px 0px #818482;
   }
 
   .navbar ul {
@@ -44,5 +46,8 @@
     <li> <a class='{view === undefined ? "selected": ""}' href='.'> Home </a></li>
     <li> <a class='{view === "about" ? "selected": ""}' href='about'> About </a></li>
     <li> <a class='{view === "machine-learning" ? "selected": "machine-learning"}' href='machine-learning'> Machine Learning View </a></li>
+    <li> <a class='{view === "about" ? "selected": "temp-cam"}' href='temp-cam'> Temporary Cam </a></li>
+
   </ul>
+
 </div>

@@ -1,42 +1,14 @@
 <style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
-	}
-
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
-
-	figure {
-		margin: 0 0 1em 0;
-	}
-
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
-
-	button,
+  .container {
+    display: inline-block
+  }
+  
+  button, .button,
 		button:link,
 		button:visited {
 			text-transform: uppercase;
 			text-decoration: none;
-			padding: 1rem 1rem;
+			padding: 0.5rem 1rem;
 			border-radius: 3rem;
 			-webkit-transition: all 0.2s;
 			transition: all 0.2s;
@@ -96,24 +68,35 @@
 </style>
 
 <script>
-	import {goto} from '@sapper/app';
+  import Modal from '../components/Modal.svelte'
+  import Content from '../components/Content.svelte'
+  let files 
 
-	function handle_click(){
-		goto('machine-learning')
-	}
+  function handlePic(){
+    return "blooop"
+  }
+
 </script>
 
-<svelte:head>
-	<title>Pfizer Demo</title>
-</svelte:head>
+<br/>
 
-<h1>Welcome!</h1>
+<h1>Hello this is the machine learning view</h1>
+<p>Please upload a photo or take a picture of some text.</p>
 
-<figure>
-	<img alt='Pfizer-Logo' src='pfizer-logo.png'>
-	<figcaption>Pfizer INC: Working for a healthier world</figcaption>
-</figure>
+<div class="container">
 
-<p><strong>Applied Machine Learning techniques to Photo</strong></p>
+  <input class="button" type="file" bind:files>
+  {#if files && files[0]} 
+    {files[0].name}
+  {/if}
 
-<button class="button" on:click={handle_click}>Check It Out</button>
+  or
+
+  <Modal>
+    <Content />
+  </Modal>
+  
+</div>
+
+
+<button on:click={handlePic}>Submit</button>
