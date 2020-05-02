@@ -1,53 +1,36 @@
 <script>
-	import { onMount } from 'svelte';
+  import { onMount } from 'svelte'
+  import { getContext } from 'svelte' 
+  import { constraints, key, vidInit } from './stores.js'
 
   onMount(() => {
-    init()
-  })
-
-  let context
-  let stream 
-  let img
+    vidInit()
+  })  
   
-  const constraints = {
-    audio: true,
-    video: {
-      width: 600, height: 500
-    }
-  }
-
-  async function init(){
-    try {
-      stream = await navigator.mediaDevices.getUserMedia(constraints)
-      handleSuccess(stream)
-    }
-    catch(e){
-      console.log("ERROR", e)
-    }
-  }
-
   function handleSuccess(stream){
     window.stream = stream 
     video.srcObject = stream 
   }
 
-  //// context = canvas.getContext('2d')
+  // const { context } = getContext(key)
+  // const img = context()
 
-  function handleSnap(){
-    drawImage(video, 0, 0, 500,500)
-  }
+  // function handleSnap(img){
+
+  //   img = context.drawImage(video, 0, 0, 500,500)
+  // }
 
 </script>
 
 <h1>Hello Welcome to Temorary Camera View</h1> 
 
 <div class="video-wrap">
-  <video id="video" playsinline autoplay></video>
+  <video key="vid" id="video" playsinline autoplay></video>
 </div>
 
 <div class="controller">
-  <button id="snap" on:click={handleSnap}>Take Snapshot</button>
+  <button id="snap" >Take Snapshot</button>
 </div> 
 
-<canvas id="canvas" width="500" height="500">{img}</canvas>
+<canvas id="canvas" width="500" height="500"></canvas>
 
