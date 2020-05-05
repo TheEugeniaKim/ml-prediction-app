@@ -1,14 +1,31 @@
 <style>
-  .container {
-    display: inline-block
-  }
-  
-  button, .button,
+
+h1 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+.container {
+  align-content: center;
+  justify-content: center;
+}
+
+canvas {
+  border: 1px solid black;
+  top:10%;  
+  left:10%;
+  border:2px solid;
+}
+
+button,
 		button:link,
 		button:visited {
 			text-transform: uppercase;
 			text-decoration: none;
-			padding: 0.5rem 1rem;
+			padding: 1rem 1rem;
 			border-radius: 3rem;
 			-webkit-transition: all 0.2s;
 			transition: all 0.2s;
@@ -67,36 +84,99 @@
 	}
 </style>
 
-<script>
-  import Modal from '../components/Modal.svelte'
-  import Content from '../components/Content.svelte'
-  let files 
 
-  function handlePic(){
-    return "blooop"
+<script>
+  let canvasElement
+  let mouseDown = false
+  let flag = false 
+  let ctx 
+  let color = 'black' 
+  let thickness = 2
+  const mousePos = {
+    x: null,
+    y: null, 
+    prevX: null,
+    prevY: null
   }
 
+  function trackMouse({ x, y, type }) {
+    if (type === "mousedown") {
+      mousePos.prevX = mousePos.x 
+      mousePos.prevY = mousePos.y 
+      mousePos.x = x - canvasElement.offsetLeft
+      mousePos.y = y - canvasElement.offsetTop
+      mouseDown = true;
+      flag = true 
+      if (flag){
+        ctx.beginPath()
+        ctx.fillStyle = color 
+        ctx.fillRect(mousePos.x, mousePos.y, 2, 2)
+        ctx.closePath()
+        flag = false
+      }
+    }
+    if (type === "mouseup" || type === "mouseout") {
+      mouseDown = false;
+    }
+    if (mouseDown) {
+      mousePos.prevX = mousePos.x 
+      mousePos.prevY = mousePos.y
+      mousePos.x = x - canvasElement.offsetLeft
+      mousePos.y = y - canvasElement.offsetTop
+      drawImage(x, y);
+    }
+    if (type === "mousemove"){
+      if (mouseDown){
+        mousePos.prevX = mousePos.x 
+        mousePos.prevY = mousePos.y 
+        mousePos.x = x - canvasElement.offsetLeft
+        mousePos.y = y - canvasElement.offsetTop
+        drawImage()
+      }
+    }
+  }
+
+  function drawImage(){
+    ctx = canvasElement.getContext('2d')
+    ctx.strokeStyle = color
+    ctx.lineWidth = thickness
+    ctx.beginPath()
+    ctx.moveTo(mousePos.prevX, mousePos.prevY)
+    ctx.lineTo(mousePos.x, mousePos.y)
+    ctx.stroke();
+    ctx.closePath();
+  }
+
+  function erase() {
+    var m = confirm("Want to clear");
+    if (m) {
+      ctx.clearRect(0, 0, canvasElement.width, canvasElement.height)
+    }
+  }
+
+  function submit(){
+
+  }
 </script>
 
-<br/>
-
-<h1>Hello this is the machine learning view</h1>
-<p>Please upload a photo or take a picture of some text.</p>
-
 <div class="container">
+  <br/>
 
-  <input class="button" type="file" bind:files>
-  {#if files && files[0]} 
-    {files[0].name}
-  {/if}
+  <h1>Hello this is the machine learning view</h1>
+  <p>Please draw a Number in the box area below</p>
 
-  or
+  <canvas
+    on:mousemove={trackMouse}
+    on:mouseup={trackMouse}
+    on:mousedown={trackMouse}
+    on:mouseout={trackMouse}
+    bind:this={canvasElement}
+  ></canvas>
 
-  <Modal>
-    <Content />
-  </Modal>
-  
+  <br/>
+
+  <div>
+    <button on:click={erase}>Clear</button> 
+    <button on:click={submit}>Submit</button>
+  </div>
 </div>
-
-
-<button on:click={handlePic}>Submit</button>

@@ -46,8 +46,6 @@
     <li> <a class='{view === undefined ? "selected": ""}' href='.'> Home </a></li>
     <li> <a class='{view === "about" ? "selected": ""}' href='about'> About </a></li>
     <li> <a class='{view === "machine-learning" ? "selected": "machine-learning"}' href='machine-learning'> Machine Learning View </a></li>
-    <li> <a class='{view === "about" ? "selected": "temp-cam"}' href='temp-cam'> Temporary Cam </a></li>
-
   </ul>
 
 </div>
